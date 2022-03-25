@@ -2,10 +2,10 @@ import React from 'react'
 import Map from './Map';
 import Logs from './Logs';
 
-const MapComponent = () => {
+const MapComponent = ({isOpen}) => {
   return (
     <div className='w-full flex h-full'>
-      <Map />
+      <Map isOpen={isOpen} />
       <Logs />
     </div>
   )
