@@ -3,8 +3,8 @@ import Filter from './Filter'
 
 const Map = ({isOpen}) => {
     return (
-        <div className='w-2/3 pt-10 bg-green-100'>
-            <p>Here the map component will go</p>
+        <div className='relative w-2/3 bg-green-100 h-full'>
+            <p>here the map component</p>
             <Filter isOpen={isOpen}/>
         </div>
     )

@@ -9,7 +9,7 @@ const Logs = () => {
     }
     
   return (
-    <div className='w-1/3 h-full bg-blue-100 pt-10'>
+    <div className='w-1/3 h-full bg-blue-100 '>
         <p>Here the logs will go</p>
     </div>
   )
