@@ -4,7 +4,7 @@ import Logs from './Logs';
 
 const MapComponent = ({isOpen}) => {
   return (
-    <div className='w-full flex h-full'>
+    <div className='w-full flex h-full pt-10'>
       <Map isOpen={isOpen} />
       <Logs />
     </div>
