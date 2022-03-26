@@ -2,12 +2,16 @@ import React from 'react'
 import Filter from './Filter'
 import GoogleMapReact from 'google-map-react';
 
-const AnyReactComponent = ({ text }) => <div>{text}</div>;
 
-const Map = ({ isOpen }) => {
+
+const VehicleMarker = ({ text, color }) => {
+    return <div className={`h-6 w-6 rounded-full border-2 border-white text-center bg-black`} style={{ cursor: 'pointer'}}></div>;
+}
+
+const Map = ({ isOpen, vehicles }) => {
 
     return (
-        <div className='relative w-2/3 h-full'>
+        <div className='relative w-full h-full'>
             <GoogleMapReact
                 bootstrapURLKeys={{ key: 'AIzaSyB9mAs9XA7wtN9RdKMKRig7wlHBfUtjt1g' }}
                 defaultCenter={{
@@ -123,13 +127,15 @@ const Map = ({ isOpen }) => {
                     ]
                 }}
             >
-                   <AnyReactComponent
-            lat={32.0555684}
-            lng={34.759562}
-            text="My Marker"
-          />
+                {vehicles && Object.values(vehicles).map((vehicle, index) => <VehicleMarker
+                    key={index}
+                    color={vehicle.color}
+                    lat={vehicle.currentLocation.location.lat}
+                    lng={vehicle.currentLocation.location.lng}
+                    text={vehicle.plateNumber}
+                />)}
             </GoogleMapReact>
-            <Filter isOpen={isOpen} />
+            <Filter isOpen={isOpen} vehicles={vehicles} />
         </div>
     )
 }

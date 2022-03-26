@@ -1,16 +1,20 @@
-import React, {useEffect, useState} from 'react'
+import React, { useEffect, useState } from 'react'
+import { createListenersOnLogs } from '../../../firebase/log_functions'
+import Log from './Log'
 
-const Logs = () => {
 
-    const callLogs = () => {
-        fetch('http://localhost:3000/api/print_logs')
-        .then(response => response.json())
-        .then(response => console.log(response))
-    }
-    
+const Logs = ({db}) => {
+  const [logs,setLogs] = useState(null)
+
+  useEffect(() => {
+    (async () => {
+        await createListenersOnLogs(db,setLogs);
+    }) ();
+  }, [])
+
   return (
-    <div className='w-1/3 h-full bg-blue-100 '>
-        <p>Here the logs will go</p>
+    <div className='relative w-2/5 h-full bg-gray-700 max-w-[500px] flex justify-end items-center py-2 flex-col rounded-sm overflow-y-scroll'>
+      {logs && logs["26-3-2022"].map(log => <Log time={log.time} type={log.type} text={log.text} server={log.server}/>)}
     </div>
   )
 }

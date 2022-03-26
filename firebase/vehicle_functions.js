@@ -1,13 +1,10 @@
 import { ref, get, child, onValue } from "firebase/database";
 
-export async function createListenersOnVehicles(db, vehicle) {
+export async function createListenersOnVehicles(db,setVehicles) {
     // loop throught the vehicles and create listeners to them
-    let change;
-    onValue(ref(db, '/vehicles/' + vehicle), (snapshot) => {
-        console.log('vehicle', vehicle, 'has changed');
-        change = snapshot.val();
+    await onValue(ref(db, '/vehicles/'), (snapshot) => {
+        setVehicles(snapshot.val());
     })
-    return change;
 }
 
 export async function getVehiclesFromDatabase(db) {

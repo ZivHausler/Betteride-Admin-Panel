@@ -7,31 +7,19 @@ import { getVehiclesFromDatabase, createListenersOnVehicles } from '../firebase/
 export default function Home() {
   const db = initFirebase();
   const [isOpen, setIsOpen] = useState(false)
-  const [vehicles, setVehicles] = useState({})
+  const [vehicles, setVehicles] = useState(null)
 
+  // init vehicle listener
   useEffect(() => {
     (async () => {
-      try {
-        // console.log((await getVehiclesFromDatabase(db)).length);
-        await setVehicles(await getVehiclesFromDatabase(db));
-      } catch (e) {
-        console.error(e);
-      }
-    })();
+        await createListenersOnVehicles(db, setVehicles);
+    }) ();
   }, [])
 
-  useEffect(() => {
-    (async () => {
-      for (let vehicle in vehicles) {
-        let change = await createListenersOnVehicles(db, vehicle);
-      }
-    })();
-  }, [])
-
-  return (
-    <div className='w-full h-screen'>
-      <NavBar isOpen={isOpen} setIsOpen={setIsOpen} />
-      <MapComponent isOpen={isOpen} />
-    </div>
-  )
+return (
+  <div className='w-full h-screen'>
+    <NavBar isOpen={isOpen} setIsOpen={setIsOpen}/>
+    <MapComponent isOpen={isOpen} vehicles={vehicles} db={db}/>
+  </div>
+)
 }
