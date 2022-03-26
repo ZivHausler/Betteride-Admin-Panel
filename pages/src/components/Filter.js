@@ -20,7 +20,7 @@ const Filter = ({ isOpen, vehicles }) => {
 
             {vehicles &&
                 <div className='w-full h-full flex flex-col items-center pt-2'>
-                    {Object.values(vehicles).map(vehicle => <VehicleInfo key={vehicle.plateNumber} plateNumber={vehicle.plateNumber} currentLocation={vehicle.currentLocation} precentage={vehicle.battery} state={vehicle.state} />)}
+                    {Object.values(vehicles).map(vehicle => <VehicleInfo key={vehicle.plateNumber} plateNumber={vehicle.plateNumber} currentLocation={vehicle.currentLocation} precentage={vehicle.battery} stats={vehicle.stats} />)}
                 </div>
             }
         </div>

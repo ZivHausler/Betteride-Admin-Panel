@@ -129,10 +129,10 @@ const Map = ({ isOpen, vehicles }) => {
             >
                 {vehicles && Object.values(vehicles).map((vehicle, index) => <VehicleMarker
                     key={index}
-                    color={vehicle.color}
-                    lat={vehicle.currentLocation.location.lat}
-                    lng={vehicle.currentLocation.location.lng}
-                    text={vehicle.plateNumber}
+                    color={vehicle?.color}
+                    lat={vehicle?.currentLocation?.location.lat}
+                    lng={vehicle?.currentLocation?.location.lng}
+                    text={vehicle?.plateNumber}
                 />)}
             </GoogleMapReact>
             <Filter isOpen={isOpen} vehicles={vehicles} />
