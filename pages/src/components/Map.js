@@ -136,6 +136,7 @@ const Map = ({ isOpen, vehicles }) => {
                 />)}
             </GoogleMapReact>
             <Filter isOpen={isOpen} vehicles={vehicles} />
+            <div className='rounded-xl absolute bottom-0 pt-3 bg-gray-500/80 backdrop-blur-[3px] w-[325px] h-[22%] mb-1.5 ml-2  shadow-md flex flex-col items-center transition ease-in-out duration-300'> here is div inputs</div>
         </div>
     )
 }
