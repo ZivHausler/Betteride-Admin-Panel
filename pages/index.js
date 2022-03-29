@@ -8,7 +8,7 @@ export default function Home() {
   const db = initFirebase();
   const [isOpen, setIsOpen] = useState(true)
   const [vehicles, setVehicles] = useState(null)
-
+  
   // init vehicle listener
   useEffect(() => {
     (async () => {
