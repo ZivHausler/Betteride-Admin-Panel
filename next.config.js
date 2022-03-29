@@ -10,6 +10,7 @@ module.exports = {
     storageBucket: "betteride.appspot.com",
     messagingSenderId: "826611003690",
     appId: "1:826611003690:web:5f6c6634e3c51cf4a52e53",
-    measurementId: "G-SW32RTSRPW"
+    measurementId: "G-SW32RTSRPW",
+    IP_ADDRESS: '10.0.0.40' // ziv -> 10.0.0.40, daniel -> 10.100.102.233
   }
 }
