@@ -1,7 +1,7 @@
 import React, { useState,useEffect } from 'react'
 import VehicleInfo from './VehicleInfo';
 
-const Filter = ({ isOpen, vehicles }) => {
+const Filter = ({setMapCenter, isOpen, vehicles }) => {
 
     const [showAddFilters, setShowAddFilters] = useState(false);
     const [filteredVehicles, setFilteredVehicles] = useState({});
@@ -35,7 +35,7 @@ const Filter = ({ isOpen, vehicles }) => {
 
             {vehicles &&
                 <div className='w-full h-full flex flex-col items-center pt-2'>
-                    {Object.values(vehicles).map(vehicle => <VehicleInfo key={vehicle.plateNumber} plateNumber={vehicle.plateNumber} currentLocation={vehicle.currentLocation} precentage={vehicle.battery} state={vehicle.state} />)}
+                    {Object.values(vehicles).map(vehicle => <VehicleInfo setMapCenter={setMapCenter} key={vehicle.plateNumber} plateNumber={vehicle.plateNumber} currentLocation={vehicle.currentLocation} precentage={vehicle.battery} state={vehicle.state} />)}
                 </div>
             }
         </div>

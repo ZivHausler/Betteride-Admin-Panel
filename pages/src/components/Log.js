@@ -7,8 +7,8 @@ const Log = ({ time, type, text, server }) => {
             <div className='w-2.5 h-2.5 rounded-full shadow-sm mr-1 '>
                 {type === "ERROR" ?
                     <span class="relative flex h-2.5 w-2.5">
-                        <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-400 opacity-75"></span>
-                        <span class="relative inline-flex rounded-full h-2.5 w-2.5 bg-red-500"></span>
+                        <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-400 opacity-75"></span>
+                        <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-red-500"></span>
                     </span> :
                     <div className={`w-2.5 h-2.5 rounded-full shadow-sm mr-1 ${type === "WARNING" ?  "bg-yellow-400 animate-pulse" : "bg-green-400"}`}></div>
                 }

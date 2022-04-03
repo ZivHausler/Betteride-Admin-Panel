@@ -12,6 +12,7 @@ const NavBar = ({isOpen,setIsOpen}) => {
         <div className='p-1 ml-5'>
           <Image className='pointer-events-none' src="/betteride_logo.png" width={150} height={30} />
         </div>
+        
       </div>
   )
 }

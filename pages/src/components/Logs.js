@@ -23,14 +23,11 @@ const Logs = ({ db }) => {
   }, [logs]);
 
 
-  const getCurrentDate = () => {
-    const currentdate = new Date();
-    return currentdate.getDate() + "-" + (currentdate.getMonth() + 1) + "-" + currentdate.getFullYear();
-  }
+ 
 
   return (
     <div className='relative w-2/5 h-full bg-gray-700 max-w-[500px] flex items-center py-2 flex-col overflow-y-scroll'>
-      {logs.length > 0 && logs[getCurrentDate()].map((log, index) => <Log key={index} time={log.time} type={log.type} text={log.text} server={log.server} />)}
+      {logs?.length > 0 && logs.map((log, index) => <Log key={index} time={log.time} type={log.type} text={log.text} server={log.server} />)}
       <div ref={logsEndRef} />
     </div>
   )
