@@ -15,12 +15,7 @@ const Map = ({ isOpen, vehicles }) => {
     const [polylines, setPolylines] = useState([])
     const [map, setMap] = useState(null);
     const [maps, setMaps] = useState(null);
-
-    const [mapCenter, setMapCenter] = useState({
-        lat: 32.07,
-        lng: 34.80
-    });
-
+    const [mapCenter, setMapCenter] = useState({lat: 32.07,lng: 34.80});
 
     const toggleAutomation = () => {
         fetch(`http://${process.env.IP_ADDRESS}:3002/api/setAutomation`, { method: "PUT" })
@@ -30,7 +25,7 @@ const Map = ({ isOpen, vehicles }) => {
 
     const setRefs = (map, maps) => {
         setMap(map);
-        setMaps(maps)
+        setMaps(maps);
     }
 
     const stepsToPath = (steps) => {

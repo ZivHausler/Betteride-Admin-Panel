@@ -10,7 +10,7 @@ const Log = ({ time, type, text, server }) => {
                         <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-400 opacity-75"></span>
                         <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-red-500"></span>
                     </span> :
-                    <div className={`w-2.5 h-2.5 rounded-full shadow-sm mr-1 ${type === "WARNING" ?  "bg-yellow-400 animate-pulse" : "bg-green-400"}`}></div>
+                    <div className={`w-2.5 h-2.5 rounded-full shadow-sm mr-1 ${type === "WARNING" ?  "bg-yellow-400 animate-pulse" : type === 'OK' ? "bg-green-400" : "bg-blue-500" }`}></div>
                 }
             </div>
             <div className='mr-1'>{`[${time}]`}</div>
