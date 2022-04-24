@@ -11,15 +11,28 @@ const VehicleMarker = ({ text, color }) => {
 }
 
 const Map = ({ isOpen, vehicles }) => {
-    const [onGoing, setOngoing] = useState(false);
+    const [isAutomated, setIsAutomated] = useState(false);
+    const [counter, setCounter] = useState(0);
+    const [isAlgorithmDemo, setIsAlgorithmDemo] = useState(0);
     const [polylines, setPolylines] = useState([])
     const [map, setMap] = useState(null);
     const [maps, setMaps] = useState(null);
-    const [mapCenter, setMapCenter] = useState({lat: 32.07,lng: 34.80});
+    const [mapCenter, setMapCenter] = useState({ lat: 32.07, lng: 34.80 });
 
     const toggleAutomation = () => {
+        setIsAutomated(!isAutomated)
         fetch(`http://${process.env.IP_ADDRESS}:3002/api/setAutomation`, { method: "PUT" })
-            .then(response => setOngoing(!onGoing))
+            .then(response => setIsAutomated(!isAutomated))
+            .catch(e => alert(e))
+    }
+
+    const toggleAlgorithmDemo = (state) => {
+        fetch(`http://${process.env.IP_ADDRESS}:3002/api/setAlgorithmExample${state === 0 ? '?state=0' : ''}`, { method: "PUT" })
+            .then(response => setIsAlgorithmDemo(state))
+            .catch(e => alert(e))
+    }
+    const resetDatabase = (state) => {
+        fetch(`http://${process.env.IP_ADDRESS}:3002/api/resetDatabase`, { method: "PUT" })
             .catch(e => alert(e))
     }
 
@@ -47,7 +60,7 @@ const Map = ({ isOpen, vehicles }) => {
                         path: "M 0,-1 0,1",
                         strokeOpacity: 1,
                         scale: 4,
-                      };
+                    };
                     tempPolylines[plateNumber] = {
                         polyline: new maps.Polyline({
                             path: stepsToPath(vehicles[plateNumber].route.steps),
@@ -57,29 +70,61 @@ const Map = ({ isOpen, vehicles }) => {
                             strokeWeight: 4,
                             icons: vehicles[plateNumber].state.type === "TOWARDS_USER" ? [
                                 {
-                                  icon: lineSymbol,
-                                  offset: "0",
-                                  repeat: "20px",
+                                    icon: lineSymbol,
+                                    offset: "0",
+                                    repeat: "20px",
                                 },
-                              ] : null,
+                            ] : null,
                         }),
                         state: vehicles[plateNumber].state.type
                     }
                     setPolylines(tempPolylines)
                     tempPolylines[plateNumber].polyline.setMap(map)
-                    console.log("new route added to vehicle platenumber " + plateNumber)
                 }
-                else if (polylines[plateNumber] && vehicles[plateNumber].state?.type != polylines[plateNumber].state) {
+                else if (polylines[plateNumber] && vehicles[plateNumber]?.route?.steps && vehicles[plateNumber]?.state?.type) {
                     // if route is displayed but the vehicle has already finished it -> remove the polyline from map
-                    console.log("vehicle platenumber " + plateNumber + ", finished his route, route has been removed")
+                    const tempPolylines = { ...polylines }
+                    tempPolylines[plateNumber].polyline.setMap(null);
+                    delete tempPolylines[plateNumber]
+                    
+                    // create new poly
+                    const lineSymbol = {
+                        path: "M 0,-1 0,1",
+                        strokeOpacity: 1,
+                        scale: 4,
+                    };
+                    tempPolylines[plateNumber] = {
+                        polyline: new maps.Polyline({
+                            path: stepsToPath(vehicles[plateNumber].route.steps),
+                            geodesic: true,
+                            strokeColor: vehicles[plateNumber].color,
+                            strokeOpacity: vehicles[plateNumber].state.type === "TOWARDS_USER" ? 0 : 1.0,
+                            strokeWeight: 4,
+                            icons: vehicles[plateNumber].state.type === "TOWARDS_USER" ? [
+                                {
+                                    icon: lineSymbol,
+                                    offset: "0",
+                                    repeat: "20px",
+                                },
+                            ] : null,
+                        }),
+                        state: vehicles[plateNumber].state.type
+                    }
+                    setPolylines(tempPolylines)
+                    tempPolylines[plateNumber].polyline.setMap(map)
+                }
+                else if(polylines[plateNumber]){
                     const tempPolylines = { ...polylines }
                     tempPolylines[plateNumber].polyline.setMap(null);
                     delete tempPolylines[plateNumber]
                     setPolylines(tempPolylines)
+
                 }
+                setCounter(counter+1)
+                console.log(counter)
             });
         }
-    }, [vehicles, map, maps])
+    }, [vehicles])
 
     return (
         <div className='relative w-full h-full'>
@@ -206,10 +251,26 @@ const Map = ({ isOpen, vehicles }) => {
                 />)}
             </GoogleMapReact>
             <Filter setMapCenter={setMapCenter} isOpen={isOpen} vehicles={vehicles} />
-            <div className={`${isOpen ? 'translate-x-0' : '-translate-x-[150%] '} rounded-xl absolute bottom-0 pt-3 bg-gray-500/80 backdrop-blur-[3px] w-[325px] h-[22%] mb-1.5 ml-2  shadow-md flex flex-col items-center justify-center transition ease-in-out duration-300`}>
-                <div onClick={() => toggleAutomation()} className={`shadow-lg hover:scale-110 transition ease-in-out duration-100 select-none cursor-pointer h-32 w-32 rounded-full ${onGoing ? 'bg-red-500' : 'bg-green-500'} flex items-center justify-center`}>
-                    <p className='font-black uppercase'>{onGoing ? 'end now' : 'start now'}</p>
-                </div>
+            <div className={`${isOpen ? 'translate-x-0' : '-translate-x-[150%] '} rounded-xl absolute bottom-0 bg-gray-500/80 backdrop-blur-[3px] w-[325px] h-[22%] mb-1.5 ml-2  shadow-md flex flex-col items-center justify-center transition ease-in-out duration-300`}>
+                {isAlgorithmDemo > 0 && isAlgorithmDemo < 3 &&
+                    <div onClick={() => toggleAlgorithmDemo(isAlgorithmDemo + 1)} className={`my-2 shadow-lg hover:scale-110 transition ease-in-out duration-100 select-none cursor-pointer w-52 h-12 px-4 rounded-full bg-green-500 flex items-center justify-center`}>
+                        <p className='font-black uppercase'>continue</p>
+                    </div>}
+                {!isAutomated &&
+                    <div onClick={() => toggleAlgorithmDemo(isAlgorithmDemo ? 0 : 1)} className={`my-2 shadow-lg hover:scale-110 transition ease-in-out duration-100 select-none cursor-pointer w-52 h-12 px-4 rounded-full ${isAlgorithmDemo ? 'bg-red-500' : 'bg-cyan-600 text-gray-100'} flex items-center justify-center`}>
+                        <p className='font-black uppercase'>{isAlgorithmDemo ? 'stop demo' : 'start demo'}</p>
+                    </div>
+                }
+                {!isAlgorithmDemo &&
+                    <div onClick={() => toggleAutomation()} className={`my-2  shadow-lg hover:scale-110 transition ease-in-out duration-100 select-none cursor-pointer w-52 h-12 px-4 rounded-full ${isAutomated ? 'bg-red-500' : 'bg-emerald-700 text-gray-100'} flex items-center justify-center`}>
+                        <p className='font-black uppercase'>{isAutomated ? 'stop automation' : 'run automation'}</p>
+                    </div>
+                }
+                {!isAlgorithmDemo && !isAutomated &&
+                    <div onClick={() => resetDatabase()} className={`my-2  shadow-lg hover:scale-110 transition ease-in-out duration-100 select-none cursor-pointer w-52 h-12 px-4 rounded-full bg-yellow-600 text-gray-100 flex items-center justify-center`}>
+                        <p className='font-black uppercase'>reset db</p>
+                    </div>
+                }
             </div>
         </div>
     )
