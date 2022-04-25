@@ -76,18 +76,18 @@ const Map = ({ isOpen, vehicles }) => {
                                 },
                             ] : null,
                         }),
-                        state: vehicles[plateNumber].state.type
+                        state: vehicles[plateNumber].state.type,
+                        userID: vehicles[plateNumber].state.assigned,
                     }
                     setPolylines(tempPolylines)
                     tempPolylines[plateNumber].polyline.setMap(map)
+                    console.log("new route added to vehicle platenumber " + plateNumber)
                 }
-                else if (polylines[plateNumber] && vehicles[plateNumber]?.route?.steps && vehicles[plateNumber]?.state?.type) {
-                    // if route is displayed but the vehicle has already finished it -> remove the polyline from map
+                // check if there has been a reassigned to an already generated polyline
+                else if (polylines[plateNumber] && polylines[plateNumber].userID != vehicles[plateNumber]?.state?.assigned && vehicles[plateNumber]?.route?.steps && vehicles[plateNumber]?.state?.type){
+                    alert('reassigned', plateNumber);
                     const tempPolylines = { ...polylines }
                     tempPolylines[plateNumber].polyline.setMap(null);
-                    delete tempPolylines[plateNumber]
-                    
-                    // create new poly
                     const lineSymbol = {
                         path: "M 0,-1 0,1",
                         strokeOpacity: 1,
@@ -108,20 +108,20 @@ const Map = ({ isOpen, vehicles }) => {
                                 },
                             ] : null,
                         }),
-                        state: vehicles[plateNumber].state.type
+                        state: vehicles[plateNumber].state.type,
+                        userID: vehicles[plateNumber].state.assigned,
                     }
                     setPolylines(tempPolylines)
                     tempPolylines[plateNumber].polyline.setMap(map)
                 }
-                else if(polylines[plateNumber]){
+                // if route is displayed but the vehicle has already finished it -> remove the polyline from map
+                else if (polylines[plateNumber] && vehicles[plateNumber].state?.type != polylines[plateNumber].state) {
+                    console.log("vehicle platenumber " + plateNumber + ", finished his route, route has been removed")
                     const tempPolylines = { ...polylines }
                     tempPolylines[plateNumber].polyline.setMap(null);
                     delete tempPolylines[plateNumber]
                     setPolylines(tempPolylines)
-
                 }
-                setCounter(counter+1)
-                console.log(counter)
             });
         }
     }, [vehicles])
