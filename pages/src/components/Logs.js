@@ -34,13 +34,13 @@ const Logs = ({ db }) => {
       <div className='w-full flex flex-row flex-wrap items-center justify-center shadow-[0_3px_5px_rgba(55,65,81,1)] z-20 '>
         <div onClick={() => selectedFilter.includes('OK') ? setSelectedFilter(selectedFilter.filter(e => e !== 'OK')) : setSelectedFilter([...selectedFilter, 'OK'])} className={`flex flex-row w-[22%] m-1 p-2 justify-center items-center cursor-pointer shadow rounded-xl h-8  duration-100 ease-in-out ${selectedFilter.includes('OK') ? 'bg-gray-200 hover:bg-gray-300' : 'bg-gray-500 hover:bg-gray-400 text-white '} `}>
           <div className={`w-2.5 h-2.5 rounded-full shadow-sm mr-1 bg-green-400 `}></div>
-          <p className='font-light  '>
+          <p className='font-light select-none '>
             Ok
           </p>
         </div>
         <div onClick={() => selectedFilter.includes('WARNING') ? setSelectedFilter(selectedFilter.filter(e => e !== 'WARNING')) : setSelectedFilter([...selectedFilter, 'WARNING'])} className={`flex flex-row w-[22%] m-1 p-2 justify-center items-center cursor-pointer shadow rounded-xl h-8  duration-100 ease-in-out ${selectedFilter.includes('WARNING') ? 'bg-gray-200 hover:bg-gray-300' : 'bg-gray-500 hover:bg-gray-400 text-white '} `}>
           <div className={`w-2.5 h-2.5 rounded-full shadow-sm mr-1 bg-yellow-400 animate-pulse`}></div>
-          <p className='font-light  '>
+          <p className='font-light select-none '>
             Warn
           </p>
         </div>
@@ -49,11 +49,11 @@ const Logs = ({ db }) => {
             <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-400 opacity-75"></span>
             <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-red-500"></span>
           </span>
-          <p className='font-light pl-1'>Error</p>
+          <p className='font-light pl-1 select-none'>Error</p>
         </div>
         <div onClick={() => selectedFilter.includes('ALGO') ? setSelectedFilter(selectedFilter.filter(e => e !== 'ALGO')) : setSelectedFilter([...selectedFilter, 'ALGO'])} className={`flex flex-row w-[22%] m-1 p-2 justify-center items-center cursor-pointer shadow rounded-xl h-8  duration-100 ease-in-out ${selectedFilter.includes('ALGO') ? 'bg-gray-200 hover:bg-gray-300' : 'bg-gray-500 hover:bg-gray-400 text-white '} `}>
           <div className={`w-2.5 h-2.5 rounded-full shadow-sm mr-1 bg-blue-600`}></div>
-          <p className='font-light'>Algo</p>
+          <p className='font-light select-none'>Algo</p>
         </div>
       </div>
       <div className='py-2 h-full w-full flex items-center flex-col overflow-y-scroll'>
