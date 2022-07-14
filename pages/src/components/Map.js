@@ -4,7 +4,6 @@ import GoogleMapReact from 'google-map-react';
 import Image from 'next/image'
 
 const VehicleMarker = ({ text, color }) => {
-
     return <div style={{ cursor: 'pointer' }} className={`relative  h-[40px] w-[40px] rounded-full -translate-x-1/2 -translate-y-full`}>
         <Image src={`/${color}_vehicle_pin.png`} layout='fill' />
     </div>;
@@ -84,7 +83,7 @@ const Map = ({ isOpen, vehicles }) => {
                     console.log("new route added to vehicle platenumber " + plateNumber)
                 }
                 // check if there has been a reassigned to an already generated polyline
-                else if (polylines[plateNumber] && polylines[plateNumber].userID != vehicles[plateNumber]?.state?.assigned && vehicles[plateNumber]?.route?.steps && vehicles[plateNumber]?.state?.type){
+                else if (polylines[plateNumber] && polylines[plateNumber].userID != vehicles[plateNumber]?.state?.assigned && vehicles[plateNumber]?.route?.steps && vehicles[plateNumber]?.state?.type) {
                     alert('reassigned', plateNumber);
                     const tempPolylines = { ...polylines }
                     tempPolylines[plateNumber].polyline.setMap(null);
